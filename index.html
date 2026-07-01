@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sudoku Solver — Webcam + Backtracking</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <div>
+          <h1 class="header-title">
+            <span class="status-dot"></span>Sudoku solver
+          </h1>
+          <p class="header-sub">Point camera at a printed grid, then capture</p>
+        </div>
+        <div id="stepCounter" class="step-counter"></div>
+      </header>
+
+      <div class="canvas-wrap" id="canvasWrap">
+        <video id="webcam" autoplay playsinline muted></video>
+        <canvas id="photoCanvas"></canvas>
+        <canvas id="overlayCanvas"></canvas>
+        <div class="guide-frame"><div class="guide-inner"></div></div>
+        <div class="scan-line" id="scanLine"></div>
+        <div class="placeholder-msg" id="placeholderMsg">
+          <span class="icon">&#128247;</span>
+          <span
+            >Click "Start camera" below — your browser will ask for camera
+            permission</span
+          >
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="btnCamera" class="primary">Start camera</button>
+        <button id="btnCapture" disabled>Capture &amp; solve</button>
+        <button id="btnAnimate" disabled>Replay animation</button>
+        <button id="btnReset" class="danger" disabled>Reset</button>
+      </div>
+
+      <div class="speed-wrap">
+        <span>Animation speed</span>
+        <input
+          type="range"
+          id="speedSlider"
+          min="5"
+          max="200"
+          value="40"
+          step="5"
+        />
+        <span id="speedVal">40ms</span>
+      </div>
+
+      <div class="status-bar">
+        <div class="status-line">
+          <span class="label">Status</span
+          ><span id="statusText">Ready — start camera to begin</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <div class="error-msg" id="errorMsg"></div>
+      <div class="help-box" id="helpBox"></div>
+
+      <div class="grid-preview" id="gridPreview">
+        <div class="grid-preview-label">Recognized grid</div>
+        <table class="sudoku-table" id="sudokuTable"></table>
+        <div class="steps-wrap">
+          <span id="cellsSolved"></span>
+          <span id="solveTime"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tesseract.js: free, in-browser OCR engine, no API key or backend needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.4/tesseract.min.js"></script>
+
+    <!-- Order matters: solver, overlay, and ocr must load before app.js, since app.js calls their functions -->
+    <script src="solver.js"></script>
+    <script src="overlay.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
